@@ -35,7 +35,7 @@
 
 
     <h3 style='text-align: center;'>Returning intern Login</h3>
-    <form action="verifyLogin.php" method="post">
+    <form action="VerifyLogin.php" method="post">
         <p style='text-align: center;'>
             Enter your email address:
             <input type="text" name="email">

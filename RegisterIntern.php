@@ -59,7 +59,7 @@
                 $password2 = "";
             }
         }
-
+        
         if ($errors == 0) {
             $DBConnect = mysqli_connect($hostname, $username, $passwd);
             if (!$DBConnect) {
@@ -79,6 +79,18 @@
             }
             $TableName = "interns";
             if ($errors == 0) {
+                $SQLstring = "SELECT count(*) FROM $TableName" . 
+                " WHERE email='$email'";
+                $queryResult = mysqli_query($DBConnect, $SQLstring);
+                if ($queryResult) {
+                    $row = mysqli_fetch_row($queryResult);
+                    if ($row[0] > 0) {
+                        ++$errors;
+                        echo "<p style='text-align: center;'>The e-mail address entered (" . htmlentities($email) . ") is already registered.</p>\n";
+                    }
+                }
+            }
+            if ($errors == 0) {
                 $first = stripslashes($_POST['first']);
                 $last = stripslashes($_POST['last']);
                 $SQLstring = "INSERT INTO $TableName" .
@@ -93,11 +105,18 @@
                 else {
                     $internID = mysqli_insert_id($DBConnect);
                 }
-                echo "<p style='text-align: center;'>closing Database \"$DBName\" connection.</p>\n";
-                mysqli_close($DBConnect);
+               //legasy contrast
             }
         }
-    
+        if ($errors == 0) {
+            $internName = $first . " " . $last;
+            echo "<p style='text-align: center;'>Thank you, $internName. " . "Your new intern ID is <strong>" . 
+                $internID . "</strong>.</p>\n";
+        }
+        if ($DBConnect) {
+            echo "<p style='text-align: center;'>closing Database \"$DBName\" connection.</p>\n";
+            mysqli_close($DBConnect);
+        }
         if ($errors > 0) {
             echo "<p style='text-align: center;'>Please use your browser's BACK button to return to the form and fix the errors indicated</p>";
         }
