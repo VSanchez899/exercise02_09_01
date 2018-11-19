@@ -116,6 +116,10 @@
         if ($DBConnect) {
             echo "<p style='text-align: center;'>closing Database \"$DBName\" connection.</p>\n";
             mysqli_close($DBConnect);
+            echo "<form action='AvailableOpportunities.php' method='post'>\n";
+            echo "<input type='hidden' name='internID' value='$internID'>\n";
+            echo "<p style='text-align: center;'><input type='submit' name='submit' value='View Available Opportunities'></p>";
+            echo "</form>\n";
         }
         if ($errors > 0) {
             echo "<p style='text-align: center;'>Please use your browser's BACK button to return to the form and fix the errors indicated</p>";
