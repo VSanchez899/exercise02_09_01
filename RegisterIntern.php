@@ -1,4 +1,5 @@
 <?php
+session_start();
     $body = "";
     $errors = 0;
     $email = "";
@@ -94,24 +95,25 @@
                     $body .= "<p style='text-align: center;'>unable to save your registration error code: " . mysqli_error($DBConnect) . "</p>\n";
                 }
                 else {
-                    $internID = mysqli_insert_id($DBConnect);
+                  //  $internID = mysqli_insert_id($DBConnect);
+                  $_SESSION['internID'] = mysqli_insert_id($DBConnect);
                 }
-               //legasy contrast
             }
         }
         if ($errors == 0) {
             $internName = $first . " " . $last;
             $body .= "<p style='text-align: center;'>Thank you, $internName. " . "Your new intern ID is <strong>" . 
-                $internID . "</strong>.</p>\n";
+                $_SESSION['internID'] . "</strong>.</p>\n";
         }
         if ($DBConnect) {
             setcookie("internID", $internID);
             $body .= "<p style='text-align: center;'>closing Database \"$DBName\" connection.</p>\n";
+            $body .= "<p><a href='AvailableOpportunities.php?" . "PHPSESSID=" . session_id() . "'>" . "View Available Opportunities</a></p>\n";
             mysqli_close($DBConnect);
-            $body .= "<form action='AvailableOpportunities.php' method='post'>\n";
-            $body .= "<input type='hidden' name='internID' value='$internID'>\n";
-            $body .= "<p style='text-align: center;'><input type='submit' name='submit' value='View Available Opportunities'></p>";
-            $body .= "</form>\n";
+            // $body .= "<form action='AvailableOpportunities.php' method='post'>\n";
+            // $body .= "<input type='hidden' name='internID' value='$internID'>\n";
+            // $body .= "<p style='text-align: center;'><input type='submit' name='submit' value='View Available Opportunities'></p>";
+            // $body .= "</form>\n";
         }
         if ($errors > 0) {
             $body .= "<p style='text-align: center;'>Please use your browser's BACK button to return to the form and fix the errors indicated</p>";

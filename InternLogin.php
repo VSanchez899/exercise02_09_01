@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<?php
+session_start();
+echo "Session id: " . session_id() . "</br>\n";
+?>
 <html lang="en" style="background-color: grey;">
     <head>
         <title></title>
@@ -10,7 +14,7 @@
     <h2 style='text-align: center;'>Register / Login</h2>
     <p style='text-align: center;'>new interns, please complete the top form to register as a user. Returning users, please complete the second form to login.</p>
     <h3 style='text-align: center;'>New intern Registration</h3>
-    <form action="RegisterIntern.php" method="post">
+    <form action="RegisterIntern.php?PHPSESSID=<?php echo session_id(); ?>" method="post">
         <p style='text-align: center;'>Enter your name: First
             <input type="text" name="first">
             Last:
@@ -35,7 +39,7 @@
 
 
     <h3 style='text-align: center;'>Returning intern Login</h3>
-    <form action="VerifyLogin.php" method="post">
+    <form action="VerifyLogin.php?PHPSESSID=<?php echo session_id() ?>" method="post">
         <p style='text-align: center;'>
             Enter your email address:
             <input type="text" name="email">
