@@ -1,10 +1,14 @@
+<?php
+session_start();
+echo "Session id: " . session_id() . "<br>\n";
+?>
+
 <!DOCTYPE html>
 <html lang="">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Verify Login</title>
-  <script src="modernizr.custom.65897.js"></script>
 </head>
 ​
 <body>
@@ -49,7 +53,7 @@
     // this tells it to get a row from the query result (internID row and first/last name row)
     else {
       $row = mysqli_fetch_assoc($queryResult);
-      $internID = $row['internID'];
+      $_SESSION['internID'] = $row['internID'];
       $internName = $row['first'] . " " . $row['last'];
       //Fetch rows from a result-set, then free the memory associated with the result
       mysqli_free_result($queryResult);
@@ -65,7 +69,8 @@
 //    echo "<input type ='hidden' name='internID' value='$internID'>\n";
 //    echo "<input type='submit' name='submit' value='View Available Opportunities'>\n";
 //    echo "</form>\n";
-    echo "<p><a href='AvailableOpportunities.php?" . "internID=$internID'>Available Opportunities" . "</a></p>\n";
+    // echo "<p><a href='AvailableOpportunities.php?" . "internID=$internID'>Available Opportunities" . "</a></p>\n";
+    echo "<p><a href='AvailableOpportunities.php?" . "PHPSESSID=" . session_id() . "'>Available Opportunities" . "</a></p>\n";
   }
   // indicates to go back to fix errors
   if ($errors > 0) {

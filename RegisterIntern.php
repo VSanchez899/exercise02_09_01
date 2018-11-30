@@ -106,7 +106,8 @@ session_start();
                 $_SESSION['internID'] . "</strong>.</p>\n";
         }
         if ($DBConnect) {
-            setcookie("internID", $internID);
+            //setcookie("internID", $internID);
+            setcookie("internID", $_SESSION['internID']);
             $body .= "<p style='text-align: center;'>closing Database \"$DBName\" connection.</p>\n";
             $body .= "<p><a href='AvailableOpportunities.php?" . "PHPSESSID=" . session_id() . "'>" . "View Available Opportunities</a></p>\n";
             mysqli_close($DBConnect);

@@ -1,10 +1,12 @@
 <?php
+session_start();
 $body = "";
 $errors = "0";
 $internID = "0";
-if (isset($_GET['internID'])) {
-    $internID = $_GET['internID'];
-} else {
+// if (isset($_GET['internID'])) {
+//     $internID = $_GET['internID'];
+// }
+if (!isset($_SESSION['internID'])) {
     ++$errors;
     $body .= "<p>You have not logged in or registered</p>" . 
     " please return to the  " . 
@@ -18,7 +20,8 @@ if ($errors == 0) {
         ++$errors;
         $body .= "<p>You have not selected an opportunity</p>" . 
         " please return to the  " . 
-        "<a href='AvailableOpportunity.php'>" . 
+        "<a href='AvailableOpportunities.php?" . 
+        "PHPSESSID=" . session_id() . "'>" . 
         "Available Opportunity Page</a></p>";
     }
 }
@@ -53,7 +56,8 @@ $hostname = "localhost";
       $tableName = "assigned_opportunities";
       $SQLstring = "INSERT INTO $tableName" . 
       " (opportunityID, internID, dateSelected)" . 
-      " VALUES($opportunityID, $internID, '$dbDate')";
+      " VALUES($opportunityID, " . 
+      $_SESSION['internID'] . ", '$dbDate')";
       $queryResult = mysqli_query($DBConnect, $SQLstring);
       if (!$queryResult) {
           ++$errors;
@@ -72,10 +76,10 @@ $hostname = "localhost";
     $body .= "<p>Closing database \"$DBName\" connection.</p>\n";
     mysqli_close($DBConnect);
   }
-  if ($internID > 0) {
+  if ($_SESSION['internID'] > 0) {
       $body .= "<p>return to the " . 
       "<a href='AvailableOpportunities.php?" . 
-      "internID=$internID'>Available Opportunities" . 
+      "PHPSESSID=" . session_id() . "'>Available Opportunities" . 
       "</a> page.</p>\n";
   }
   else {

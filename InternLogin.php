@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <?php
 session_start();
-echo "Session id: " . session_id() . "</br>\n";
+$_SESSION = array();
+session_destroy();
 ?>
 <html lang="en" style="background-color: grey;">
     <head>
